@@ -22,21 +22,21 @@ public final class UpdateUserHandler implements OperationHandler {
     final String id   = console.readRequired("User ID                                       : ");
     final String name = console.readRequired("New name                                      : ");
     final String email= console.readRequired("New email                                     : ");
-    final String pw   = console.readOptional("New password (leave blank to keep current)    : ");
+    final String password   = console.readOptional("New password (leave blank to keep current)    : ");
     final String role = console.readRequired("Role   (ADMIN / MEMBER / REVIEWER)            : ");
     final String status=console.readRequired("Status (ACTIVE / INACTIVE / PENDING / BLOCKED): ");
 
     try {
-      final UserResponse upd = userController.updateUser(
+      final UserResponse updateCommand = userController.updateUser(
           new UpdateUserRequest(
               id,
               name,
               email,
-              pw.isBlank() ? null : pw,
+              password.isBlank() ? null : password,
               role,
               status));
       console.println("\n  User updated successfully.");
-      printer.print(upd);
+      printer.print(updateCommand);
     } catch (final UserNotFoundException exception) {
       console.println("  Not found: " + exception.getMessage());
     }
