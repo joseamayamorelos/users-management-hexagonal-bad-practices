@@ -27,11 +27,7 @@ public class EmailDestinationModel {
   }
 
   private static String validateNotBlank(final String value, final String errorMessage) {
-    // VIOLACIÓN Regla 4: se usa == null en lugar de Objects.requireNonNull() o Objects.isNull().
-    // Para objetos siempre debe usarse Objects.isNull/nonNull, nunca operadores == o !=.
-    if (value == null) {
-      throw new NullPointerException(errorMessage);
-    }
+    java.util.Objects.requireNonNull(value, errorMessage);
 
     if (value.trim().isEmpty()) {
       throw new IllegalArgumentException(errorMessage);

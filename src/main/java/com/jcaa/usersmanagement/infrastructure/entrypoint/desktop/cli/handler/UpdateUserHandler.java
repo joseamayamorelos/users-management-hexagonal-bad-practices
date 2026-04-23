@@ -17,8 +17,6 @@ public final class UpdateUserHandler implements OperationHandler {
 
   @Override
   public void handle() {
-    // VIOLACIÓN Regla 4: abreviaturas en nombres de variables ("pw" y "upd").
-    // Los nombres deben ser claros y descriptivos, sin abreviaturas.
     final String id   = console.readRequired("User ID                                       : ");
     final String name = console.readRequired("New name                                      : ");
     final String email= console.readRequired("New email                                     : ");
@@ -27,7 +25,7 @@ public final class UpdateUserHandler implements OperationHandler {
     final String status=console.readRequired("Status (ACTIVE / INACTIVE / PENDING / BLOCKED): ");
 
     try {
-      final UserResponse updateCommand = userController.updateUser(
+      final UserResponse response = userController.updateUser(
           new UpdateUserRequest(
               id,
               name,
@@ -36,7 +34,7 @@ public final class UpdateUserHandler implements OperationHandler {
               role,
               status));
       console.println("\n  User updated successfully.");
-      printer.print(updateCommand);
+      printer.print(response);
     } catch (final UserNotFoundException exception) {
       console.println("  Not found: " + exception.getMessage());
     }

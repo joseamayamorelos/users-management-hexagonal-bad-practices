@@ -13,8 +13,6 @@ import lombok.extern.java.Log;
 @RequiredArgsConstructor
 public final class CreateUserHandler implements OperationHandler {
 
-  // VIOLACIÓN Regla 4: Logger instanciado manualmente en vez de usar @Log de Lombok.
-
   private final UserController userController;
   private final ConsoleIO console;
   private final UserResponsePrinter printer;

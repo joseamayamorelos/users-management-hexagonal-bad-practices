@@ -30,37 +30,21 @@ public final class CreateUserService implements CreateUserUseCase {
 
   @Override
   public UserModel execute(final CreateUserCommand command) {
-    // Clean Code - Regla 1: cada función debe hacer una sola cosa.
-    // Clean Code - Regla 2: las funciones deben ser cortas.
-    // Clean Code - Regla 3: un solo nivel de abstracción por función.
-    // Este método mezcla: validación de constraints, log de PII, verificación de negocio,
-    // construcción del dominio (nivel técnico bajo), persistencia, notificación y retorno.
-    // Tiene demasiadas responsabilidades y mezcla niveles de abstracción (reglas de negocio
-    // junto con detalles de formateo de strings y construcción manual de objetos de dominio).
-
     validateCommand(command);
+    ensureEmailIsNotTaken(new UserEmail(command.email()));
 
-    final UserEmail email = new UserEmail(command.email());
-    if (getUserByEmailPort.getByEmail(email).isPresent()) {
-      throw UserAlreadyExistsException.becauseEmailAlreadyExists(email.value());
-    }
-
-    // Clean Code - Regla 3: aquí se mezcla lógica de negocio de alto nivel (crear usuario)
-    // con detalles de construcción de bajo nivel (new UserId, new UserName, etc.).
-    // Estos detalles deberían estar encapsulados en el mapper o en una fábrica.
-    final UserModel userToSave = new UserModel(
-        new UserId(command.id()),
-        new UserName(command.name()),
-        new UserEmail(command.email()),
-        UserPassword.fromPlainText(command.password()),
-        UserRole.fromString(command.role()),
-        UserStatus.PENDING);
-
+    final UserModel userToSave = UserApplicationMapper.fromCreateCommandToModel(command);
     final UserModel savedUser = saveUserPort.save(userToSave);
 
     emailNotificationService.notifyUserCreated(savedUser, command.password());
 
     return savedUser;
+  }
+
+  private void ensureEmailIsNotTaken(final UserEmail email) {
+    if (getUserByEmailPort.getByEmail(email).isPresent()) {
+      throw UserAlreadyExistsException.becauseEmailAlreadyExists(email.value());
+    }
   }
   private void validateCommand(final CreateUserCommand command) {
     final Set<ConstraintViolation<CreateUserCommand>> violations = validator.validate(command);

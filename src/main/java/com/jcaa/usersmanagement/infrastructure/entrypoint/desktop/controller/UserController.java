@@ -34,17 +34,11 @@ public final class UserController {
   private final LoginUseCase loginUseCase;
 
   public List<UserResponse> listAllUsers() {
-    // VIOLACIÓN Regla 4: uso de abreviatura "usrs" — los nombres deben ser claros y sin abreviaturas.
     final var users = getAllUsersUseCase.execute();
     return UserDesktopMapper.toResponseList(users);
   }
 
   public UserResponse findUserById(final String id) {
-    // Clean Code - Regla 20 (objeto antes que primitivo cuando el concepto lo merezca):
-    // El parámetro "id" es un String desnudo. El dominio tiene un tipo propio UserId
-    // que encapsula la validación (no vacío, no nulo, trimming).
-    // Al recibir String aquí, cualquier String pasa sin validación hasta llegar al value object.
-    // Recibir UserId directamente haría el contrato más expresivo y seguro.
     final var query = UserDesktopMapper.toGetByIdQuery(id);
     final var user = getUserByIdUseCase.execute(query);
     return UserDesktopMapper.toResponse(user);
