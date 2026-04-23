@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public final class ConsoleIO {
 
+  private static final String MSG_BLANK_VALUE = "  Value cannot be blank. Please try again.";
+  private static final String MSG_INVALID_INPUT = "  Invalid input. Please enter a number.";
+
   private final Scanner scanner;
   private final PrintStream out;
 
@@ -21,8 +24,7 @@ public final class ConsoleIO {
       out.print(prompt);
       value = scanner.nextLine().trim();
       if (value.isBlank()) {
-        // VIOLACIÓN Regla 10: texto hardcodeado directamente — debe ser una constante.
-        out.println("  Value cannot be blank. Please try again.");
+        out.println(MSG_BLANK_VALUE);
       }
     } while (value.isBlank());
     return value;
@@ -41,8 +43,7 @@ public final class ConsoleIO {
       try {
         return Integer.parseInt(rawInput);
       } catch (final NumberFormatException ignored) {
-        // VIOLACIÓN Regla 10: texto hardcodeado directamente — debe ser una constante.
-        out.println("  Invalid input. Please enter a number.");
+        out.println(MSG_INVALID_INPUT);
       }
     }
   }
