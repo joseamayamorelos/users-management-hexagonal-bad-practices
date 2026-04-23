@@ -40,13 +40,7 @@ public final class CreateUserService implements CreateUserUseCase {
     // Tiene demasiadas responsabilidades y mezcla niveles de abstracción (reglas de negocio
     // junto con detalles de formateo de strings y construcción manual de objetos de dominio).
 
-    // Clean Code - Regla 9: se usa comentario para tapar un bloque poco expresivo.
-    // La regla dice: antes de comentar, intenta mejorar nombres y extraer funciones.
-    // validar campos del command
-    final Set<ConstraintViolation<CreateUserCommand>> violations = validator.validate(command);
-    if (!violations.isEmpty()) {
-      throw new ConstraintViolationException(violations);
-    }
+    validateCommand(command);
 
     log.info("Creando usuario con email=" + command.email() + ", nombre=" + command.name());
 
@@ -75,5 +69,11 @@ public final class CreateUserService implements CreateUserUseCase {
 
 
     return savedUser;
+  }
+  private void validateCommand(final CreateUserCommand command) {
+    final Set<ConstraintViolation<CreateUserCommand>> violations = validator.validate(command);
+    if (!violations.isEmpty()) {
+      throw new ConstraintViolationException(violations);
+    }
   }
 }
