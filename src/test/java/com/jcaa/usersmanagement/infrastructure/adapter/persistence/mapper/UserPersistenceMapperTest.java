@@ -23,7 +23,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-// VIOLACIÓN Regla 11: se eliminó el javadoc de la clase que documentaba qué casos cubre.
+/**
+ * Pruebas para UserPersistenceMapper cubriendo conversiones entre modelo, DTO, entidad y ResultSet.
+ */
 @DisplayName("UserPersistenceMapper")
 @ExtendWith(MockitoExtension.class)
 class UserPersistenceMapperTest {
@@ -39,7 +41,7 @@ class UserPersistenceMapperTest {
 
   @Mock private ResultSet resultSet;
 
-  // VIOLACIÓN Regla 4 (consecuencia): el mapper ya no es @UtilityClass, hay que instanciarlo.
+
   private UserModel userModel;
   private UserEntity userEntity;
 
@@ -56,8 +58,6 @@ class UserPersistenceMapperTest {
 
     userEntity = new UserEntity(ID, NAME, EMAIL, HASH, ROLE, STATUS, CREATED_AT, UPDATED_AT);
   }
-
-  // ── fromModelToDto()
 
   @Test
   @DisplayName("fromModelToDto() maps all UserModel fields and sets null timestamps")
@@ -77,8 +77,6 @@ class UserPersistenceMapperTest {
         () -> assertNull(result.createdAt(), "createdAt must be null"),
         () -> assertNull(result.updatedAt(), "updatedAt must be null"));
   }
-
-  // ── fromEntityToModel()
 
   @Test
   @DisplayName("fromEntityToModel() maps all UserEntity fields to a domain UserModel")

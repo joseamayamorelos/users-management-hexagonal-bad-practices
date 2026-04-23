@@ -16,7 +16,9 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-// VIOLACIÓN Regla 11: se eliminó el javadoc de la clase.
+/**
+ * Pruebas para DatabaseConnectionFactory cubriendo la creación de conexiones y manejo de errores de Driver.
+ */
 @DisplayName("DatabaseConnectionFactory")
 @ExtendWith(MockitoExtension.class)
 class DatabaseConnectionFactoryTest {
@@ -30,7 +32,7 @@ class DatabaseConnectionFactoryTest {
   @Mock private Connection mockConnection;
 
   private DatabaseConfig config;
-  // VIOLACIÓN Regla 4 (consecuencia): el factory ya no es @UtilityClass, hay que instanciarlo.
+
 
   @BeforeEach
   void setUp() {

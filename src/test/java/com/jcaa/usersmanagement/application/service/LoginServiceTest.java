@@ -46,8 +46,7 @@ class LoginServiceTest {
   @Test
   @DisplayName("execute() retorna el usuario cuando las credenciales son correctas y está activo")
   void shouldReturnUserWhenCredentialsAreValidAndUserIsActive() {
-    // VIOLACIÓN Regla 11: se eliminaron los comentarios de estructura Arrange–Act–Assert.
-    // La regla exige que cada bloque esté documentado con // Arrange, // Act, // Assert.
+    // Arrange
     final LoginCommand command = new LoginCommand(EMAIL, PASSWORD);
     final UserModel activeUser =
         new UserModel(
@@ -58,18 +57,19 @@ class LoginServiceTest {
             UserRole.ADMIN,
             UserStatus.ACTIVE);
     when(getUserByEmailPort.getByEmail(any())).thenReturn(Optional.of(activeUser));
+
+    // Act
     final UserModel result = service.execute(command);
-    // VIOLACIÓN Regla 11: se usa assertTrue(result != null) en lugar de assertNotNull(result).
-    // La regla indica usar las aserciones correctas — assertNotNull es más expresivo.
-    assertTrue(result != null);
-    // VIOLACIÓN Regla 11: se usa assertTrue(result == activeUser) en lugar de assertSame(...).
-    assertTrue(result == activeUser);
+
+    // Assert
+    assertNotNull(result, "El resultado del login no debería ser nulo");
+    assertSame(activeUser, result, "Debería retornar la misma instancia del usuario activo");
   }
 
   // ── email no registrado
 
-  // VIOLACIÓN Regla 11: falta @DisplayName — los tests deben documentar su comportamiento.
   @Test
+  @DisplayName("Debería lanzar InvalidCredentialsException cuando el email no está registrado")
   void shouldThrowWhenEmailNotFound() {
     final LoginCommand command = new LoginCommand(EMAIL, PASSWORD);
 
@@ -78,8 +78,8 @@ class LoginServiceTest {
     assertThrows(InvalidCredentialsException.class, () -> service.execute(command));
   }
 
-  // VIOLACIÓN Regla 11: falta @DisplayName en el método.
   @Test
+  @DisplayName("Debería lanzar InvalidCredentialsException cuando la contraseña es incorrecta")
   void shouldThrowWhenPasswordIsWrong() {
     final LoginCommand command = new LoginCommand(EMAIL, "WrongPass99");
 
