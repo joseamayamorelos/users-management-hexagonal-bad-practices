@@ -21,7 +21,7 @@ public final class JavaMailEmailSenderAdapter implements EmailSenderPort {
   private static final String MAIL_SMTP_STARTTLS = "mail.smtp.starttls.enable";
   private static final String CONTENT_TYPE_HTML = "text/html; charset=UTF-8";
   private static final String CHARSET_UTF8 = "UTF-8";
-  private static final String SENDER_EMAIL_LOG = "Correo enviado exitosamente a: {0}";
+  private static final String SENDER_EMAIL_LOG = "Correo enviado exitosamente";
 
   private final Session mailSession;
   private final String fromAddress;
@@ -38,7 +38,7 @@ public final class JavaMailEmailSenderAdapter implements EmailSenderPort {
     try {
       final MimeMessage message = buildMessage(destination);
       Transport.send(message);
-      log.log(Level.INFO, SENDER_EMAIL_LOG, destination.getDestinationEmail());
+      log.log(Level.INFO, SENDER_EMAIL_LOG);
     } catch (final MessagingException | UnsupportedEncodingException exception) {
       throw EmailSenderException.becauseSmtpFailed(
           destination.getDestinationEmail(), exception.getMessage());

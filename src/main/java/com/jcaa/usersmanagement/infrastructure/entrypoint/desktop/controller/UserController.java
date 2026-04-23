@@ -18,9 +18,11 @@ import com.jcaa.usersmanagement.infrastructure.entrypoint.desktop.dto.UpdateUser
 import com.jcaa.usersmanagement.infrastructure.entrypoint.desktop.dto.UserResponse;
 import com.jcaa.usersmanagement.infrastructure.entrypoint.desktop.mapper.UserDesktopMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.java.Log;
 
 import java.util.List;
 
+@Log
 @RequiredArgsConstructor
 public final class UserController {
 
@@ -50,12 +52,14 @@ public final class UserController {
 
   public UserResponse createUser(final CreateUserRequest request) {
     final var command = UserDesktopMapper.toCreateCommand(request);
+    log.info("Procesando solicitud de creación de usuario con ID: " + command.id());
     final var user = createUserUseCase.execute(command);
     return UserDesktopMapper.toResponse(user);
   }
 
   public UserResponse updateUser(final UpdateUserRequest request) {
     final var command = UserDesktopMapper.toUpdateCommand(request);
+    log.info("Procesando solicitud de actualización de usuario con ID: " + command.id());
     final var user = updateUserUseCase.execute(command);
     return UserDesktopMapper.toResponse(user);
   }

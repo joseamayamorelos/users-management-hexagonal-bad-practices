@@ -15,11 +15,9 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 
 import java.util.Set;
 
-@Log
 @RequiredArgsConstructor
 public final class UpdateUserService implements UpdateUserUseCase {
 
@@ -38,7 +36,6 @@ public final class UpdateUserService implements UpdateUserUseCase {
     // Solución: void execute(command) para el comando + UserModel getUpdatedUser(id) para la consulta.
     validateCommand(command);
 
-    log.info("Actualizando usuario id=" + command.id() + ", email=" + command.email() + ", nombre=" + command.name());
 
     final UserId userId = new UserId(command.id());
     final UserModel current = findExistingUserOrFail(userId);
@@ -66,8 +63,7 @@ public final class UpdateUserService implements UpdateUserUseCase {
     if (notify) {
       emailNotificationService.notifyUserUpdated(user);
     } else {
-      // cuando no se notifica, se registra igualmente en el log interno
-      log.info("Actualización silenciosa para usuario: " + user.getId().value());
+      // actualización silenciosa: sin notificación
     }
   }
 

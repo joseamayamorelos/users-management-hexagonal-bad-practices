@@ -17,11 +17,9 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.java.Log;
 
 import java.util.Set;
 
-@Log
 @RequiredArgsConstructor
 public final class CreateUserService implements CreateUserUseCase {
 
@@ -42,9 +40,6 @@ public final class CreateUserService implements CreateUserUseCase {
 
     validateCommand(command);
 
-    log.info("Creando usuario con email=" + command.email() + ", nombre=" + command.name());
-
-
     final UserEmail email = new UserEmail(command.email());
     if (getUserByEmailPort.getByEmail(email).isPresent()) {
       throw UserAlreadyExistsException.becauseEmailAlreadyExists(email.value());
@@ -61,12 +56,9 @@ public final class CreateUserService implements CreateUserUseCase {
         UserRole.fromString(command.role()),
         UserStatus.PENDING);
 
-
     final UserModel savedUser = saveUserPort.save(userToSave);
 
-
     emailNotificationService.notifyUserCreated(savedUser, command.password());
-
 
     return savedUser;
   }
