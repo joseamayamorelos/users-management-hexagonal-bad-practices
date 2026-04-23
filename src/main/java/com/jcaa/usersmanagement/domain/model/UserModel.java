@@ -36,4 +36,36 @@ public class UserModel {
   public UserModel deactivate() {
     return new UserModel(id, name, email, password, role, UserStatus.INACTIVE);
   }
+
+  public String idValue() {
+    return id.value();
+  }
+
+  public String nameValue() {
+    return name.value();
+  }
+
+  public String emailValue() {
+    return email.value();
+  }
+
+  public String passwordValue() {
+    return password.value();
+  }
+
+  public boolean passwordMatches(final String plainPassword) {
+    return password.verifyPlain(plainPassword);
+  }
+
+  public boolean isAllowedToLogin() {
+    return status == UserStatus.ACTIVE;
+  }
+
+  public String roleValue() {
+    return role.name();
+  }
+
+  public String statusValue() {
+    return status.name();
+  }
 }

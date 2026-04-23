@@ -58,9 +58,9 @@ public class UserDesktopMapper {
 
   public static UserResponse toResponse(final UserModel user) {
     return new UserResponse(
-        user.getId().value(),
-        user.getName().value(),
-        user.getEmail().value(),
+        user.idValue(),
+        user.nameValue(),
+        user.emailValue(),
         user.getRole().name(),
         user.getStatus().name());
   }

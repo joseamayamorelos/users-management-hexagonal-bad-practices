@@ -28,12 +28,12 @@ public class UserPersistenceMapper {
     // debería existir un método user.getIdValue() o delegarse al propio objeto.
     // La Ley de Deméter dice: habla solo con tus amigos directos, no con los amigos de tus amigos.
     return new UserPersistenceDto(
-        user.getId().value(),
-        user.getName().value(),
-        user.getEmail().value(),
-        user.getPassword().value(),
-        user.getRole().name(),
-        user.getStatus().name(),
+        user.idValue(),
+        user.nameValue(),
+        user.emailValue(),
+        user.passwordValue(),
+        user.roleValue(),
+        user.statusValue(),
         null,
         null);
   }
